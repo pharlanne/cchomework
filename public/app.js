@@ -1,6 +1,7 @@
 var url = "https://restcountries.eu/rest/v1",
  countries;
 
+selectCountry;
 window.onload = function(){
   savedCountry = JSON.parse(localStorage.getItem("country_app")) || [];
   console.log("on load get countries", savedCountry);
@@ -16,7 +17,11 @@ window.onload = function(){
       countries = JSON.parse( jsonString );
       createSelect( select );
       select.onchange = selectCountry;
+
     }
+    var center = {lat:55.9520, lng:-3.1900}
+    var zoom = 14;
+    var map = new Map(center, zoom);
   }
   request.send();
 }
@@ -27,6 +32,7 @@ function createSelect( select ) {
     option.value = index;
     option.innerHTML = country.name;
     select.appendChild( option );
+
   });
 }
 
@@ -35,6 +41,7 @@ function selectCountry( event ) {
   var countryName = document.createElement( "p" ),
     population = document.createElement( "p" ),
     capital = document.createElement( "p" );
+console.log("yolo");
 
   countryName.innerText = countries[this.value].name;
   population.innerText = countries[this.value].population;
@@ -44,15 +51,19 @@ function selectCountry( event ) {
   content.appendChild( population );
   content.appendChild( capital );
 
+
+
    var savedCountry = {
     name: countryName.innerText,
     population: population.innerText,
     capital: capital.innerText
+    // var center = {lat:55.9520, lng:-3.1900}
+    // var zoom = 14;
+    // var map = new Map(center, zoom);
    }
 
   localStorage.setItem("country_app", JSON.stringify(savedCountry));
    
 }
-
 
 
